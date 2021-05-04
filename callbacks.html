@@ -10,6 +10,8 @@
   <h1>JS Callbacks</h1>
   <button id="getgeeks">Get Geeks</button>
   <button id="savegeek">Insert A Geek</button>
+  <button id="delgeek">Remove A Geek</button>
+
   <script id="js" type="text/javascript">
   const geeks=  [
       {
@@ -58,12 +60,13 @@
           `
         })
         div.innerHTML=output;
-      },2000);
+      },1000);
       document.body.insertBefore(div,js);
     }
     document.getElementById('savegeek').addEventListener('click',saveGeek);
     function saveGeek() {
-      const div=document.createElement('div');
+      setTimeout(()=>{
+          const div=document.createElement('div');
       div.classList.add('formField');
       const js=document.querySelector('#js');
       let output=`
@@ -90,9 +93,40 @@
         geeks.push({id,name,post});
         document.getElementById('name').value=" ";
         document.getElementById('post').value=" ";
+        getGeeks();
 
       });
+      },2000);
 
+
+    }
+    document.getElementById('delgeek').addEventListener('click',delGeek);
+    function delGeek() {
+        const div=document.createElement('div');
+      div.classList.add('formField');
+      const js=document.querySelector('#js');
+      let output=`
+              <form id="delForm">
+                <label for="Name">ID</label>
+                <br />
+                <input id="ids"type="text" placeholder="id..." />
+                <br />
+                <input id="id"type="submit" value="Submit" />
+              </form>
+      `
+      div.innerHTML=output;
+      document.body.insertBefore(div,js);
+
+      document.getElementById('delForm').addEventListener('submit',(e)=>{
+        e.preventDefault();
+        let id=parseInt(document.getElementById('ids').value.trim());
+      geeks.forEach((geek)=>{
+          if (geek.id===id ){
+            geeks.shift(geek);
+            return;
+          }
+        })
+      })
     }
   </script>
 </body>
