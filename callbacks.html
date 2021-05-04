@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>callbacks</title>
+</head>
+<body>
+  <h1>JS Callbacks</h1>
+  <button id="getgeeks">Get Geeks</button>
+  <button id="savegeek">Insert A Geek</button>
+  <script id="js" type="text/javascript">
+  const geeks=  [
+      {
+        id:1,
+        name:"Placideh",
+        post:"Backend"
+      },
+      {
+        id:2,
+        name:"Eric",
+        post:"Frontend"
+      },
+      {
+        id:3,
+        name:"Pacifique",
+        post:"FullStack"
+      },
+      {
+        id:4,
+        name:"Alvaro",
+        post:"TechLead"
+      },
+      {
+        id:5,
+        name:"Yannick",
+        post:"Networking"
+      }
+
+    ];
+    document.getElementById('getgeeks').addEventListener('click',getGeeks);
+    function getGeeks(){
+      let div=document.createElement('div');
+      // div.innerText='Placideh';
+      const js=document.querySelector('#js');
+      div.classList.add('geeks');
+
+      let output='';
+      setTimeout(()=>{
+        geeks.forEach((geek)=>{
+          output+=`<ul>
+                  <li>ID:${geek.id}</li>
+                  <li>NAME:${geek.name}</li>
+                  <li>POST:${geek.post}</li>
+
+                  </ul>
+          `
+        })
+        div.innerHTML=output;
+      },2000);
+      document.body.insertBefore(div,js);
+    }
+    document.getElementById('savegeek').addEventListener('click',saveGeek);
+    function saveGeek() {
+      const div=document.createElement('div');
+      div.classList.add('formField');
+      const js=document.querySelector('#js');
+      let output=`
+              <form id="myForm">
+                <label for="Name">Name</label>
+                <br />
+                <input id="name"type="text" placeholder="name..." />
+                <br />
+                <label for="Post">Post</label>
+                <br />
+                <input id="post"type="text" placeholder="position" />
+                <br />
+                <input type="submit" value="Submit" />
+              </form>
+      `
+      div.innerHTML=output;
+      document.body.insertBefore(div,js);
+      document.getElementById('myForm').addEventListener('submit',(e)=>{
+        e.preventDefault();
+        let id=Math.ceil(Math.random()*100)+1;
+        let name=document.getElementById('name').value;
+        let post=document.getElementById('post').value;
+        console.log(name,post);
+        geeks.push({id,name,post});
+        document.getElementById('name').value=" ";
+        document.getElementById('post').value=" ";
+
+      });
+
+    }
+  </script>
+</body>
+</html>

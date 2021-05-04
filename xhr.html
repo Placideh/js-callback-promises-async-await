@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>xhr</title>
+</head>
+<body>
+  <h1>XMl Http Request</h1>
+  <button id="getgeeks">GetGeeks</button>
+  <div id="output">
+
+  </div>
+  <script >
+    document.getElementById('getgeeks').addEventListener('click',getGeeks);
+    function getGeeks(){
+
+        const xhr =new XMLHttpRequest();
+        xhr.open('GET','sample.json',true);
+        xhr.onload=function(){
+          let out='<h3>Tech Guys</h3>';
+          if(this.status===200){
+            let output=document.querySelector('#output');
+            // output.style.color='blue';
+            geeks=JSON.parse(this.responseText);
+            geeks.forEach((geek)=>{
+              out+=`
+                    <div>ID:${geek.id}</div>
+                    <div>NAME:${geek.name}</div>
+                    <div>POST:${geek.post}</div>
+                    <br />
+              `
+            })
+            output.innerHTML=out;
+          }else{
+            output.innerHTML='<h3>no file found!</h3>';
+          }
+        }
+        xhr.send();
+  }
+  function saveGeek(geek) {
+    const xhr=new XMLHttpRequest();
+    xhr.open('POST','sample.json',true);
+    xhr.onload=function(){
+      if (this.status===200) {
+        // geeks=JSON.parse(this.responseText);
+        // geeks.push(geek);
+        console.log(xhr)
+      }
+    }
+    xhr.send();
+  }
+  saveGeek({id:11,name:'Hakiz',post:'networkEng'});
+  // saveGeek();
+  // getGeeks();
+  </script>
+</body>
+</html>
