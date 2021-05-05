@@ -9,32 +9,135 @@
 <body>
   <h1>JS Fetch API..</h1>
   <button id="getgeeks">Get Geeks</button>
+  <button id="savegeek">Insert A Geek</button>
+  <button id="delgeek">Remove A Geek</button>
   <script id ="js">
+
     document.getElementById('getgeeks').addEventListener('click',getGeek);
+    document.getElementById('savegeek').addEventListener('click',saveGeek);
     function getGeek(){
-      fetch('sample.txt')
-      .then(res=>res.text())
-      .then(data=>{
+      fetch('sample.json')
+      .then(res=>res.json())
+      .then(datas=>{
         let js=document.getElementById('js');
         let output='<h2>Quote of the Programmer</h2>'
         let div=document.createElement('div');
-        output+=data;
+        datas.forEach((data)=>{
+          output+=`
+                <div>ID:${data.id}</div>
+                <div>NAME:${data.name}</div>
+                <div>POST:${data.post}</div>
+                <br />
+          `;
+
+        })
         div.innerHTML=output;
         document.body.appendChild(div);
       })
     }
     // this is the shorter way of using async await instead of using then function
     async function getGeek2(){
-      const res=await fetch('sample.txt');
-      const data=await res.text();
+      const res=await fetch('sample.json');
+      const datas=await res.json();
       let js=document.getElementById('js');
       let output='<h2>Quote of the Programmer</h2>'
       let div=document.createElement('div');
-      output+=data;
+      datas.forEach((data)=>{
+          output+=`
+                <div>ID:${data.id}</div>
+                <div>NAME:${data.name}</div>
+                <div>POST:${data.post}</div>
+                <br />
+          `;
+      })
       div.innerHTML=output;
       document.body.appendChild(div);
     }
-    // getGeek2();
+     //since we don't have a backend we can not persist the data
+     //possible way it is get the data and delete the data
+     //on delete also we can not pass into it the delete methods
+     //it is just using get and tweak according to the get method
+     function saveGeek(){
+         const div=document.createElement('div');
+          div.classList.add('formField');
+      const js=document.querySelector('#js');
+      let output=`
+              <form id="myForm">
+                <label for="Name">Name</label>
+                <br />
+                <input id="name"type="text" placeholder="name..." />
+                <br />
+                <label for="Post">Post</label>
+                <br />
+                <input id="post"type="text" placeholder="position" />
+                <br />
+                <input type="submit" value="Submit" />
+              </form>
+      `
+      div.innerHTML=output;
+      document.body.insertBefore(div,js);
+  document.getElementById('myForm').addEventListener('submit',async function(e){
+        e.preventDefault();
+        let id=Math.ceil(Math.random()*100)+1;
+        let name=document.getElementById('name').value;
+        let post=document.getElementById('post').value;
+        const res=await fetch('sample.json',{
+          method:'POST',
+          headers:{
+            'accept':'application/json,text/plain, */*',
+            'content-type':'application/json'
+          },
+          body:JSON.stringify({id:id,name:name,post:post})
+        })
+        document.getElementById('name').value=" ";
+        document.getElementById('post').value=" ";
+
+      })
+
+
+      }
+
+    document.getElementById('delgeek').addEventListener('click',delGeek);
+     function delGeek(){
+      const div=document.createElement('div');
+      div.classList.add('formField');
+      const js=document.querySelector('#js');
+      let output=`
+              <form id="delForm">
+                <label for="Name">ID</label>
+                <br />
+                <input id="ids"type="text" placeholder="id..." />
+                <br />
+                <input id="id"type="submit" value="Submit" />
+              </form>
+      `
+      div.innerHTML=output;
+      document.body.insertBefore(div,js);
+
+      document.getElementById('delForm').addEventListener('submit',async (e)=>{
+        e.preventDefault();
+        const res=await fetch('sample.json');
+        const datas=await res.json();
+        let id=parseInt(document.getElementById('ids').value.trim());
+      let arrayGeek=datas.filter((data)=>{
+          return data.id!==id;
+        })
+        let output='<h2>from JSON</h2>'
+        let div=document.createElement('div');
+        arrayGeek.forEach((data)=>{
+          output+= `
+                <div>ID:${data.id}</div>
+                <div>NAME:${data.name}</div>
+                <div>POST:${data.post}</div>
+                <br />
+
+          `
+        })
+        div.innerHTML=output;
+        document.body.appendChild(div);
+    })
+  }
+
   </script>
 </body>
 </html>
