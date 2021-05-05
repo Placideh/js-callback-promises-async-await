@@ -13,7 +13,8 @@
   <button id="delgeek">Remove A Geek</button>
 
   <script id="js" type="text/javascript">
-  const geeks=  [
+  //creating arrat of geeks
+  let geeks=  [
       {
         id:1,
         name:"Placideh",
@@ -41,6 +42,7 @@
       }
 
     ];
+    // displaying geeks on the browser
     document.getElementById('getgeeks').addEventListener('click',getGeeks);
     function getGeeks(){
       let div=document.createElement('div');
@@ -63,6 +65,7 @@
       },1000);
       document.body.insertBefore(div,js);
     }
+    //adding a geek in the list
     document.getElementById('savegeek').addEventListener('click',saveGeek);
     function saveGeek() {
       setTimeout(()=>{
@@ -100,6 +103,7 @@
 
 
     }
+    //remove a geek in the list
     document.getElementById('delgeek').addEventListener('click',delGeek);
     function delGeek() {
         const div=document.createElement('div');
@@ -120,12 +124,10 @@
       document.getElementById('delForm').addEventListener('submit',(e)=>{
         e.preventDefault();
         let id=parseInt(document.getElementById('ids').value.trim());
-      geeks.forEach((geek)=>{
-          if (geek.id===id ){
-            geeks.shift(geek);
-            return;
-          }
+      let arrayGeek=geeks.filter((geek)=>{
+          return geek.id!==id;
         })
+        geeks=arrayGeek;
       })
     }
   </script>
