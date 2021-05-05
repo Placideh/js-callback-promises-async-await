@@ -11,6 +11,7 @@
   <button id="getgeeks">Get Geeks</button>
   <button id="savegeek">Insert A Geek</button>
   <button id="delgeek">Remove A Geek</button>
+  <button id="updategeek">Update A Geek</button>
 
   <script id="js" type="text/javascript">
   //creating arrat of geeks
@@ -69,7 +70,7 @@
     document.getElementById('savegeek').addEventListener('click',saveGeek);
     function saveGeek() {
       setTimeout(()=>{
-          const div=document.createElement('div');
+      const div=document.createElement('div');
       div.classList.add('formField');
       const js=document.querySelector('#js');
       let output=`
@@ -106,7 +107,8 @@
     //remove a geek in the list
     document.getElementById('delgeek').addEventListener('click',delGeek);
     function delGeek() {
-        const div=document.createElement('div');
+      setTimeout(()=>{
+          const div=document.createElement('div');
       div.classList.add('formField');
       const js=document.querySelector('#js');
       let output=`
@@ -126,6 +128,50 @@
         let id=parseInt(document.getElementById('ids').value.trim());
       let arrayGeek=geeks.filter((geek)=>{
           return geek.id!==id;
+        })
+        geeks=arrayGeek;
+      })
+      // getGeeks();
+      },2000)
+
+    }
+    // updating a geek
+    document.getElementById('updategeek').addEventListener('click',updateGeek);
+    function updateGeek() {
+        const div=document.createElement('div');
+      div.classList.add('formField');
+      const js=document.querySelector('#js');
+      let output=`
+              <form id="updateForm">
+               <label for="id">Id</label>
+               <input  id="ids" type="text" placeholder="id..." />
+                <label for="Name">Name</label>
+                <br />
+                <input id="name"type="text" placeholder="name..." />
+                <br />
+                <label for="Post">Post</label>
+                <br />
+                <input id="post"type="text" placeholder="position" />
+                <br />
+                <input type="submit" value="Submit" />
+              </form>
+      `
+      div.innerHTML=output;
+      document.body.insertBefore(div,js);
+        document.getElementById('updateForm').addEventListener('submit',(e)=>{
+        e.preventDefault();
+        let id=parseInt(document.getElementById('ids').value.trim());
+        let name=document.getElementById('name').value;
+        let post=document.getElementById('post').value;
+      let arrayGeek=geeks.filter((geek)=>{
+        if(geek.id===id){
+          geek.id=id,
+          geek.name=name,
+          geek.post=post
+          return geek;
+        }else {
+          return geek;
+        }
         })
         geeks=arrayGeek;
       })
