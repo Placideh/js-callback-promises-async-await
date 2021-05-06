@@ -42,14 +42,14 @@
   function saveGeek(geek) {
     const xhr=new XMLHttpRequest();
     xhr.open('POST','sample.json',true);
+    xhr.setRequestHeader('content-type','application/x-www-form-urlencoded');
+    xhr.send(geek);
     xhr.onload=function(){
       if (this.status===200) {
-        // geeks=JSON.parse(this.responseText);
-        // geeks.push(geek);
-        console.log(xhr)
+
+        console.log(this.responseText);
       }
     }
-    xhr.send();
   }
   saveGeek({id:11,name:'Hakiz',post:'networkEng'});
   // saveGeek();
